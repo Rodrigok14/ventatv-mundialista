@@ -24,7 +24,12 @@ export async function POST(request: Request) {
   const parsed = BodySchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
 
-  const order = await getOrder(parsed.data.orderId);
+  let order;
+  try {
+    order = await getOrder(parsed.data.orderId);
+  } catch {
+    return NextResponse.json({ ok: false, error: "order_not_found" }, { status: 404 });
+  }
   const paymentId = normalizePaymentId(parsed.data.paymentId);
   if (!paymentId) return NextResponse.json({ ok: false, error: "missing_payment_id", order }, { status: 400 });
 
@@ -43,10 +48,24 @@ export async function POST(request: Request) {
   }
 
   const warranty = await generateWarrantyPdf(order, paymentId);
-  await sendWarrantyEmail(order, paymentId, warranty.buffer);
-  const updated = await markWarrantySent(order, paymentId, status, warranty.url);
+  let emailSent = true;
+  let emailError: string | undefined;
+  try {
+    await sendWarrantyEmail(order, paymentId, warranty.buffer);
+  } catch (error) {
+    emailSent = false;
+    emailError = error instanceof Error ? error.message : "email_failed";
+  }
+  const updated = emailSent ? await markWarrantySent(order, paymentId, status, warranty.url) : { ...order, paymentId, paymentStatus: status, warrantyPdfUrl: warranty.url };
 
-  return NextResponse.json({ ok: true, order: updated, warrantyUrl: warranty.url, whatsappUrl: buildWhatsappUrl(updated, paymentId) });
+  return NextResponse.json({
+    ok: true,
+    emailSent,
+    emailError,
+    order: updated,
+    warrantyUrl: warranty.url,
+    whatsappUrl: buildWhatsappUrl(updated, paymentId),
+  });
 }
 
 function buildWhatsappUrl(order: Awaited<ReturnType<typeof getOrder>>, paymentId: string) {
@@ -61,4 +80,3 @@ function buildWhatsappUrl(order: Awaited<ReturnType<typeof getOrder>>, paymentId
   ].join("\n");
   return `https://wa.me/5493816590235?text=${encodeURIComponent(message)}`;
 }
-

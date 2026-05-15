@@ -11,6 +11,8 @@ type Props = {
 type CompleteResponse = {
   ok: boolean;
   error?: string;
+  emailSent?: boolean;
+  emailError?: string;
   whatsappUrl?: string;
   warrantyUrl?: string;
 };
@@ -51,9 +53,14 @@ export default function GraciasClient({ orderId, paymentId }: Props) {
       {state === "loading" ? (
         <p className="mt-4 text-slate-200/90">Generando garantía PDF, enviando email y preparando WhatsApp...</p>
       ) : state === "done" ? (
-        <p className="mt-4 text-slate-200/90">
-          Garantía enviada al email del cliente. Te estamos llevando a WhatsApp con comprobante, dirección y horario de entrega.
-        </p>
+        <div className="mt-4 space-y-2 text-slate-200/90">
+          <p>
+            {data?.emailSent
+              ? "Garantía enviada al email del cliente."
+              : "La garantía PDF fue generada, pero el email quedó pendiente por credenciales SMTP."}
+          </p>
+          <p>Te estamos llevando a WhatsApp con comprobante, dirección y horario de entrega.</p>
+        </div>
       ) : (
         <p className="mt-4 text-rose-200">
           No se pudo completar el envío automático. Error: {data?.error ?? "desconocido"}. Escribinos por WhatsApp para resolverlo.
@@ -78,4 +85,3 @@ export default function GraciasClient({ orderId, paymentId }: Props) {
     </main>
   );
 }
-
