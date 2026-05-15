@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { headers } from "next/headers";
 import HeroStage from "@/components/HeroStage";
 import ProductCard from "@/components/ProductCard";
@@ -50,8 +51,17 @@ export default async function Home() {
       </header>
 
       <main>
-        <section className="hero-shell mx-auto grid max-w-6xl gap-9 px-6 pb-10 pt-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-14">
-          <div className="relative z-10">
+        <section className="hero-shell relative isolate mx-auto grid max-w-6xl overflow-hidden px-6 pb-10 pt-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-9 lg:pt-14">
+          <Image
+            src="/images/familia-tv-mundial-hero.png"
+            alt="Familia ficticia viendo una Smart TV durante un partido"
+            fill
+            className="hero-lifestyle-image object-cover"
+            priority
+            sizes="100vw"
+          />
+          <div className="hero-lifestyle-overlay" />
+          <div className="relative z-10 py-6 lg:py-10">
             <p className="inline-flex items-center gap-2 rounded-full border border-sky-200/25 bg-sky-400/10 px-3 py-1 text-xs font-semibold text-sky-100">
               <span className="h-2 w-2 rounded-full bg-amber-300 shadow-[0_0_18px_rgba(250,204,21,0.9)]" />
               Stock limitado para el Mundial • Envíos a todo Argentina
@@ -87,7 +97,9 @@ export default async function Home() {
             </div>
           </div>
 
-          <HeroStage />
+          <div className="relative z-10">
+            <HeroStage />
+          </div>
         </section>
 
         <section className="border-y border-white/10 bg-white/[0.035]">
@@ -102,6 +114,57 @@ export default async function Home() {
                 <p className="font-semibold">{title}</p>
                 <p className="mt-1 text-sm text-slate-200/75">{text}</p>
               </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto mt-12 max-w-6xl px-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-3xl font-extrabold">La TV como centro del festejo</h2>
+              <p className="mt-1 text-sm text-slate-200/80">
+                Imágenes ficticias creadas para mostrar el momento: familia, chicos y amigos viviendo el partido en casa.
+              </p>
+            </div>
+            <WhatsAppCTA text="Hola Rodrigo, quiero una TV para ver el Mundial con mi familia. ¿Qué modelos tenés disponibles?">
+              Pedir recomendación
+            </WhatsAppCTA>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {[
+              {
+                src: "/images/familia-ninos-tv-mundial.png",
+                alt: "Familia ficticia con niños festejando frente a una Smart TV",
+                title: "Para ver cada gol juntos",
+                text: "Una escena familiar que refuerza emoción, pertenencia y urgencia de compra antes del partido.",
+              },
+              {
+                src: "/images/amigos-tv-mundial.png",
+                alt: "Familia ficticia viendo una Smart TV con el partido en pantalla",
+                title: "Pantalla grande, experiencia grande",
+                text: "La TV aparece como protagonista del living y ayuda a imaginar el uso real del producto.",
+              },
+              {
+                src: "/images/familia-tv-mundial-hero.png",
+                alt: "Grupo ficticio de amigos viendo fútbol en una Smart TV",
+                title: "Listo para juntadas",
+                text: "Ideal para comunicar reunión, comodidad y compra por ocasión especial.",
+              },
+            ].map((item) => (
+              <article key={item.src} className="moment-card group">
+                <div className="overflow-hidden rounded-lg">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={900}
+                    height={520}
+                    className="aspect-[4/3] w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                  />
+                </div>
+                <h3 className="mt-4 font-bold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-200/75">{item.text}</p>
+              </article>
             ))}
           </div>
         </section>
@@ -242,4 +305,3 @@ export default async function Home() {
     </div>
   );
 }
-

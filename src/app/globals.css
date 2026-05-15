@@ -33,6 +33,22 @@ body {
 
 .hero-shell {
   min-height: calc(100svh - 76px);
+  border-radius: 0 0 24px 24px;
+}
+
+.hero-lifestyle-image {
+  z-index: -2;
+  opacity: 0.42;
+  transform: scale(1.02);
+}
+
+.hero-lifestyle-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(5, 9, 20, 0.94) 0%, rgba(5, 9, 20, 0.78) 42%, rgba(5, 9, 20, 0.52) 100%),
+    linear-gradient(180deg, rgba(5, 9, 20, 0.15), rgba(5, 9, 20, 0.9));
 }
 
 .cta-primary {
@@ -47,11 +63,22 @@ body {
 }
 
 .proof-tile,
-.benefit-line {
+.benefit-line,
+.moment-card {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.055);
   border-radius: 12px;
   padding: 16px;
+}
+
+.moment-card {
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.moment-card:hover {
+  border-color: rgba(250, 204, 21, 0.28);
+  background: rgba(255, 255, 255, 0.075);
+  transform: translateY(-4px);
 }
 
 .hero-stage {
