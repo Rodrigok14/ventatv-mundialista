@@ -139,6 +139,7 @@ export async function saveCatalog(catalog: Catalog): Promise<void> {
     access: "public",
     contentType: "application/json; charset=utf-8",
     addRandomSuffix: false,
+    allowOverwrite: true,
     cacheControlMaxAge: 0,
   });
 
@@ -149,6 +150,7 @@ export async function saveCatalog(catalog: Catalog): Promise<void> {
       access: "public",
       contentType: "application/json; charset=utf-8",
       addRandomSuffix: false,
+      allowOverwrite: true,
       cacheControlMaxAge: 0,
     }
   );
@@ -191,4 +193,3 @@ export async function listImages(prefix = "images/"): Promise<string[]> {
 export async function deleteImage(urlOrPathname: string): Promise<void> {
   await del(urlOrPathname);
 }
-

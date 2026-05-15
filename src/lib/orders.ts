@@ -47,6 +47,7 @@ export async function saveOrder(order: Order): Promise<Order> {
     access: "public",
     contentType: "application/json; charset=utf-8",
     addRandomSuffix: false,
+    allowOverwrite: true,
     cacheControlMaxAge: 0,
   });
   return parsed;
@@ -68,4 +69,3 @@ export async function markWarrantySent(order: Order, paymentId: string, paymentS
   };
   return saveOrder(next);
 }
-

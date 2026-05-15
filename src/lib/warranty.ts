@@ -58,9 +58,9 @@ export async function generateWarrantyPdf(order: Order, paymentId: string): Prom
     access: "public",
     contentType: "application/pdf",
     addRandomSuffix: false,
+    allowOverwrite: true,
     cacheControlMaxAge: 0,
   });
 
   return { buffer, url: saved.url };
 }
-
