@@ -1,5 +1,5 @@
-import Image from "next/image";
 import BuyButton from "@/components/BuyButton";
+import ProductImages from "@/components/ProductImages";
 import ShareButtons from "@/components/ShareButtons";
 
 type Props = {
@@ -9,7 +9,9 @@ type Props = {
     title: string;
     subtitle?: string;
     priceArs: number;
+    previousPriceArs?: number;
     imageUrl?: string;
+    galleryImages?: string[];
     featured?: boolean;
     stockNote?: string;
   };
@@ -42,22 +44,14 @@ export default function ProductCard({ product, baseUrl }: Props) {
       </div>
 
       <div className="product-image-shell mt-4 overflow-hidden rounded-lg border border-white/10 bg-black/20">
-        {product.imageUrl ? (
-          <Image
-            src={product.imageUrl}
-            alt={product.title}
-            width={1200}
-            height={800}
-            className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-            unoptimized
-          />
-        ) : (
-          <div className="flex h-52 items-center justify-center text-sm text-slate-200/60">Subí una imagen desde Admin</div>
-        )}
+        <ProductImages title={product.title} imageUrl={product.imageUrl} galleryImages={product.galleryImages} />
       </div>
 
       <div className="mt-4">
-        <p className="text-xs font-semibold uppercase text-sky-200/80">Precio publicado</p>
+        <p className="text-xs font-semibold uppercase text-sky-200/80">Precio oferta</p>
+        {product.previousPriceArs && product.previousPriceArs > product.priceArs ? (
+          <p className="text-sm text-slate-300 line-through">{formatArs(product.previousPriceArs)}</p>
+        ) : null}
         <p className="text-2xl font-extrabold">{formatArs(product.priceArs)}</p>
         <p className="mt-1 text-xs text-slate-200/70">Envíos a todo el país • Tucumán 24 hs</p>
       </div>

@@ -1,24 +1,15 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { verifyAdminSession } from "@/lib/adminAuth";
 import { ADMIN_COOKIE_NAME } from "@/app/api/admin/_cookies";
-import { upsertProduct } from "@/lib/catalog";
+import { verifyAdminSession } from "@/lib/adminAuth";
+import { deleteImage } from "@/lib/catalog";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const BodySchema = z.object({
-  id: z.string().min(1),
-  title: z.string().min(2),
-  subtitle: z.string().optional().default(""),
-  priceArs: z.number().int().positive(),
-  previousPriceArs: z.number().int().positive().optional(),
-  imageUrl: z.string().url().optional().default(""),
-  galleryImages: z.array(z.string().url()).max(2).optional().default([]),
-  featured: z.boolean().optional().default(false),
-  active: z.boolean().optional().default(true),
-  stockNote: z.string().optional().default("Stock limitado"),
+  url: z.string().min(1),
 });
 
 export async function POST(request: Request) {
@@ -31,6 +22,7 @@ export async function POST(request: Request) {
   const parsed = BodySchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
 
-  const catalog = await upsertProduct(parsed.data);
-  return NextResponse.json({ ok: true, catalog });
+  await deleteImage(parsed.data.url);
+  return NextResponse.json({ ok: true });
 }
+

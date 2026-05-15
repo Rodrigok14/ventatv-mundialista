@@ -1,4 +1,4 @@
-import { head, list, put } from "@vercel/blob";
+import { del, head, list, put } from "@vercel/blob";
 import { z } from "zod";
 
 const ProductSchema = z.object({
@@ -6,7 +6,9 @@ const ProductSchema = z.object({
   title: z.string().min(2),
   subtitle: z.string().optional().default(""),
   priceArs: z.number().int().positive(),
+  previousPriceArs: z.number().int().positive().optional(),
   imageUrl: z.string().url().optional().default(""),
+  galleryImages: z.array(z.string().url()).max(2).optional().default([]),
   featured: z.boolean().optional().default(false),
   active: z.boolean().optional().default(true),
   stockNote: z.string().optional().default("Stock limitado"),
@@ -39,7 +41,9 @@ function defaultCatalog(): Catalog {
         title: "Enova Smart TV 32” HD Google TV",
         subtitle: "Compacta, smart y lista para ver el Mundial en dormitorio, cocina o living chico",
         priceArs: 249999,
+        previousPriceArs: 299999,
         imageUrl: "https://ventatv-mundialista.vercel.app/images/products/enova-32-showcase.svg",
+        galleryImages: [],
         featured: true,
         active: true,
         stockNote: "Más buscada",
@@ -49,7 +53,9 @@ function defaultCatalog(): Catalog {
         title: "Enova Smart TV 43” Full HD Google TV",
         subtitle: "Tamaño ideal para el living, Full HD y apps listas para el partido",
         priceArs: 399999,
+        previousPriceArs: 459999,
         imageUrl: "https://ventatv-mundialista.vercel.app/images/products/enova-43-showcase.svg",
+        galleryImages: [],
         featured: true,
         active: true,
         stockNote: "Oferta fuerte",
@@ -59,7 +65,9 @@ function defaultCatalog(): Catalog {
         title: "Enova Smart TV 55” 4K UHD Frameless",
         subtitle: "La medida más equilibrada para una experiencia mundialista grande",
         priceArs: 849999,
+        previousPriceArs: 949999,
         imageUrl: "https://ventatv-mundialista.vercel.app/images/products/enova-55-showcase.svg",
+        galleryImages: [],
         featured: true,
         active: true,
         stockNote: "Recomendada",
@@ -69,7 +77,9 @@ function defaultCatalog(): Catalog {
         title: "Enova Smart TV 65” 4K UHD Frameless",
         subtitle: "Pantalla grande, 4K y diseño sin marco para living principal",
         priceArs: 1249999,
+        previousPriceArs: 1399999,
         imageUrl: "https://ventatv-mundialista.vercel.app/images/products/enova-65-showcase.svg",
+        galleryImages: [],
         featured: false,
         active: true,
         stockNote: "Stock limitado",
@@ -79,7 +89,9 @@ function defaultCatalog(): Catalog {
         title: "Enova Smart TV 75” 4K UHD Frameless",
         subtitle: "Formato cine en casa para juntadas grandes y máxima inmersión",
         priceArs: 1484999,
+        previousPriceArs: 1649999,
         imageUrl: "https://ventatv-mundialista.vercel.app/images/products/enova-75-showcase.svg",
+        galleryImages: [],
         featured: false,
         active: true,
         stockNote: "Premium",
@@ -175,3 +187,8 @@ export async function listImages(prefix = "images/"): Promise<string[]> {
   }
   return items;
 }
+
+export async function deleteImage(urlOrPathname: string): Promise<void> {
+  await del(urlOrPathname);
+}
+
