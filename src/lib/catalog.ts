@@ -31,6 +31,10 @@ function nowIso(): string {
   return new Date().toISOString();
 }
 
+function catalogSnapshotPath(): string {
+  return `catalog/products-${Date.now()}.json`;
+}
+
 function defaultCatalog(): Catalog {
   return {
     version: 1,
@@ -135,11 +139,10 @@ export async function saveCatalog(catalog: Catalog): Promise<void> {
   if (!parsed.success) throw new Error("Invalid catalog");
 
   const json = JSON.stringify(parsed.data);
-  const saved = await put(DEFAULT_PRODUCTS_PATHNAME, json, {
+  const saved = await put(catalogSnapshotPath(), json, {
     access: "public",
     contentType: "application/json; charset=utf-8",
     addRandomSuffix: false,
-    allowOverwrite: true,
     cacheControlMaxAge: 0,
   });
 

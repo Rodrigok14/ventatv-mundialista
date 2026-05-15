@@ -172,7 +172,7 @@ export default function AdminClient() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ id }),
     });
-    const data = (await res.json()) as { ok: boolean; catalog?: Catalog };
+    const data = (await res.json().catch(() => ({ ok: false }))) as { ok: boolean; catalog?: Catalog };
     if (!res.ok || !data.ok || !data.catalog) {
       setError("No se pudo eliminar.");
       return;
@@ -325,4 +325,3 @@ export default function AdminClient() {
     </section>
   );
 }
-
