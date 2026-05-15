@@ -63,22 +63,43 @@ body {
 }
 
 .proof-tile,
-.benefit-line,
-.moment-card {
+.benefit-line {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.055);
   border-radius: 12px;
   padding: 16px;
 }
 
-.moment-card {
-  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+.emotion-band {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  isolation: isolate;
 }
 
-.moment-card:hover {
-  border-color: rgba(250, 204, 21, 0.28);
-  background: rgba(255, 255, 255, 0.075);
-  transform: translateY(-4px);
+.emotion-band-kids {
+  background-image: url("/images/familia-ninos-tv-mundial.png");
+}
+
+.emotion-band-friends {
+  background-image: url("/images/amigos-tv-mundial.png");
+}
+
+.emotion-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 9, 20, 0.93) 0%, rgba(5, 9, 20, 0.72) 45%, rgba(5, 9, 20, 0.22) 100%),
+    linear-gradient(180deg, rgba(5, 9, 20, 0.16), rgba(5, 9, 20, 0.78));
+}
+
+.emotion-overlay-right {
+  background:
+    linear-gradient(270deg, rgba(5, 9, 20, 0.94) 0%, rgba(5, 9, 20, 0.72) 45%, rgba(5, 9, 20, 0.22) 100%),
+    linear-gradient(180deg, rgba(5, 9, 20, 0.16), rgba(5, 9, 20, 0.8));
 }
 
 .hero-stage {
@@ -304,8 +325,22 @@ body {
     min-height: auto;
   }
 
+  .hero-lifestyle-image {
+    opacity: 0.34;
+  }
+
   .hero-stage {
     min-height: 340px;
+  }
+
+  .emotion-band {
+    min-height: 560px;
+    background-position: center;
+  }
+
+  .emotion-overlay,
+  .emotion-overlay-right {
+    background: linear-gradient(180deg, rgba(5, 9, 20, 0.82), rgba(5, 9, 20, 0.78));
   }
 
   .floating-chip {
