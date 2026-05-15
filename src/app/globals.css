@@ -21,13 +21,289 @@
 
 body {
   background:
-    radial-gradient(1200px 600px at 10% 0%, rgba(56, 189, 248, 0.35), transparent 60%),
-    radial-gradient(900px 500px at 90% 10%, rgba(250, 204, 21, 0.25), transparent 55%),
-    radial-gradient(700px 500px at 50% 100%, rgba(14, 165, 233, 0.2), transparent 60%),
-    linear-gradient(180deg, #050a14 0%, #070d1a 35%, #050a14 100%);
+    radial-gradient(900px 520px at 14% 4%, rgba(56, 189, 248, 0.34), transparent 62%),
+    radial-gradient(620px 420px at 80% 8%, rgba(250, 204, 21, 0.22), transparent 58%),
+    linear-gradient(180deg, #050914 0%, #07111f 42%, #050914 100%);
   color: var(--foreground);
 }
 
 ::selection {
   background: rgba(56, 189, 248, 0.35);
+}
+
+.hero-shell {
+  min-height: calc(100svh - 76px);
+}
+
+.cta-primary {
+  box-shadow: 0 14px 36px rgba(250, 204, 21, 0.22), inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+  transform: translateZ(0);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 42px rgba(250, 204, 21, 0.3), inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+}
+
+.proof-tile,
+.benefit-line {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.055);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.hero-stage {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  position: relative;
+  min-height: 440px;
+  perspective: 1100px;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.stadium-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  transform: translateY(18px);
+  filter: drop-shadow(0 0 18px rgba(125, 211, 252, 0.18));
+}
+
+.tv-3d {
+  position: relative;
+  width: min(92%, 520px);
+  aspect-ratio: 16 / 10;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(0);
+  transition: transform 220ms ease;
+  animation: tvFloat 5s ease-in-out infinite;
+  z-index: 2;
+}
+
+.tv-screen {
+  position: absolute;
+  inset: 8% 4% 18%;
+  border: 10px solid #070a10;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.95), rgba(56, 189, 248, 0.62) 30%, rgba(15, 23, 42, 0.95) 72%),
+    linear-gradient(135deg, rgba(125, 211, 252, 0.35), rgba(250, 204, 21, 0.16));
+  box-shadow:
+    0 34px 70px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 42px rgba(56, 189, 248, 0.22);
+  overflow: hidden;
+}
+
+.tv-top-light {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  top: 2%;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  filter: blur(8px);
+}
+
+.tv-base {
+  position: absolute;
+  left: 35%;
+  right: 35%;
+  bottom: 8%;
+  height: 12%;
+  border-radius: 0 0 22px 22px;
+  background: linear-gradient(180deg, #111827, #030712);
+  box-shadow: 0 18px 24px rgba(0, 0, 0, 0.35);
+}
+
+.screen-glare {
+  position: absolute;
+  inset: -20% 45% 20% -20%;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.46), transparent 52%);
+  transform: rotate(10deg);
+}
+
+.flag-band {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  height: 24%;
+  background: rgba(125, 211, 252, 0.42);
+  transform: rotate(-8deg);
+}
+
+.flag-band-top {
+  top: 12%;
+}
+
+.flag-band-bottom {
+  bottom: 12%;
+}
+
+.match-ui {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 42%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #082f49;
+  font-weight: 900;
+}
+
+.match-ui strong {
+  border-radius: 999px;
+  background: #facc15;
+  padding: 8px 16px;
+  color: #422006;
+  box-shadow: 0 10px 22px rgba(250, 204, 21, 0.25);
+}
+
+.ball-dot {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  right: 19%;
+  bottom: 24%;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0 28%, #111827 29% 35%, #ffffff 36% 100%);
+  animation: ballMove 3.8s ease-in-out infinite;
+}
+
+.floating-chip {
+  position: absolute;
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.72);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+}
+
+.chip-one {
+  left: 4%;
+  top: 18%;
+}
+
+.chip-two {
+  right: 4%;
+  top: 26%;
+}
+
+.chip-three {
+  bottom: 17%;
+  left: 14%;
+}
+
+.product-card-3d {
+  transform-style: preserve-3d;
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.product-card-3d:hover {
+  border-color: rgba(125, 211, 252, 0.42);
+  background: rgba(255, 255, 255, 0.075);
+  transform: translateY(-6px) rotateX(1.2deg) rotateY(-1.2deg);
+}
+
+.product-image-shell {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.conversion-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border: 1px solid rgba(250, 204, 21, 0.24);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(250, 204, 21, 0.14), rgba(14, 165, 233, 0.1)),
+    rgba(255, 255, 255, 0.045);
+  padding: 22px;
+}
+
+.conversion-dock {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 45;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(2, 6, 23, 0.88);
+  padding: 12px;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(14px);
+}
+
+@keyframes tvFloat {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@keyframes ballMove {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-70px, -28px) scale(0.9);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-shell {
+    min-height: auto;
+  }
+
+  .hero-stage {
+    min-height: 340px;
+  }
+
+  .floating-chip {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  .conversion-band {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .conversion-dock {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-3d,
+  .ball-dot {
+    animation: none;
+  }
+
+  .cta-primary,
+  .product-card-3d {
+    transition: none;
+  }
 }
