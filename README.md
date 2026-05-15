@@ -28,7 +28,8 @@ ADMIN_SESSION_SECRET=change-me-long-random
 BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
 
 # Mercado Pago (Checkout Pro)
-MERCADOPAGO_ACCESS_TOKEN=your_mp_access_token
+MP_ACCESS_TOKEN=your_mp_access_token
+# También se acepta MERCADOPAGO_ACCESS_TOKEN por compatibilidad.
 
 # Opcional pero recomendado (para back_urls correctas en MP)
 SITE_URL=http://localhost:3000

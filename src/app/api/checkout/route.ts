@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   const product = catalog.products.find((p) => p.id === parsed.data.productId && p.active);
   if (!product) return NextResponse.json({ ok: false, error: "not_found" }, { status: 404 });
 
-  const mpAccessToken = requiredEnv("MERCADOPAGO_ACCESS_TOKEN");
+  const mpAccessToken = optionalEnv("MP_ACCESS_TOKEN") ?? requiredEnv("MERCADOPAGO_ACCESS_TOKEN");
   const siteUrl = optionalEnv("SITE_URL");
 
   const client = new MercadoPagoConfig({ accessToken: mpAccessToken, options: { timeout: 5000 } });
